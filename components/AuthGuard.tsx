@@ -12,43 +12,63 @@ export function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  const normalizedPathname = (pathname || '').replace(/\/$/, '');
+  const isLoginRoute = normalizedPathname === '/login';
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+
     // No proteger la ruta de login
-    if (pathname === '/login') {
+    if (isLoginRoute) {
       setIsAuth(true);
       return;
     }
 
-    const checkAuth = () => {
-      const authenticated = isAuthenticated();
-      setIsAuth(authenticated);
-      
-      if (!authenticated) {
-        router.push('/login');
-      }
-    };
+    // Verificar autenticación
+    const authenticated = isAuthenticated();
+    setIsAuth(authenticated);
+    
+    if (!authenticated) {
+      router.push('/login');
+    }
+  }, [router, isLoginRoute, isMounted]);
 
-    checkAuth();
-  }, [router, pathname]);
-
-  // Si estamos en login, renderizar sin verificación
-  if (pathname === '/login') {
-    return <>{children}</>;
-  }
-
-  // Mostrar nada mientras se verifica la autenticación
-  if (isAuth === null) {
+  // Mostrar loading hasta que esté montado
+  if (!isMounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-gray-600">Cargando...</div>
       </div>
     );
   }
 
-  // Si no está autenticado, no renderizar nada (la redirección ya se hizo)
+  // Si estamos en login, siempre renderizar (sin verificación)
+  if (isLoginRoute) {
+    return <>{children}</>;
+  }
+
+  // Mostrar loading mientras se verifica la autenticación
+  if (isAuth === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-gray-600">Verificando...</div>
+      </div>
+    );
+  }
+
+  // Si no está autenticado, mostrar loading (la redirección está en progreso)
   if (!isAuth) {
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-gray-600">Redirigiendo...</div>
+      </div>
+    );
   }
 
   // Si está autenticado, renderizar los children

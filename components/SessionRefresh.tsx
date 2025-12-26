@@ -11,10 +11,12 @@ import { isAuthenticated, logout } from '@/lib/auth';
 export function SessionRefresh() {
   const router = useRouter();
   const pathname = usePathname();
+  const normalizedPathname = (pathname || '').replace(/\/$/, '');
+  const isLoginRoute = normalizedPathname === '/login';
 
   useEffect(() => {
     // No verificar en la página de login
-    if (pathname === '/login') {
+    if (isLoginRoute) {
       return;
     }
 
@@ -33,7 +35,7 @@ export function SessionRefresh() {
     }
 
     return () => clearInterval(interval);
-  }, [router, pathname]);
+  }, [router, isLoginRoute]);
 
   return null;
 }

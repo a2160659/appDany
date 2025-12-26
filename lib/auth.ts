@@ -7,7 +7,7 @@
 // Esto previene que las credenciales estén en texto plano en el código
 const ADMIN_USERNAME = 'admin';
 const CREDENTIALS_HASH = {
-  password: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', // SHA-256 de 'dogsandpets'
+  password: 'fd30192760361e0cfe9f4be2209e2294ae668d0261c9981ea09a5ccb5b3de8f9', // SHA-256 de 'dogsandpets'
 };
 
 const SESSION_KEY = 'vet_calc_session';
