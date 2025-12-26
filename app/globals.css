@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: #1f2937;
+  background: #ffffff;
+}
+
+/* Asegurar que los selects y opciones tengan texto visible */
+select {
+  color: #111827;
+}
+
+select option {
+  color: #111827;
+  background-color: #ffffff;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
