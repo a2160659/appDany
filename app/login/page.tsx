@@ -26,10 +26,12 @@ export default function LoginPage() {
     setError('');
     setIsLoading(true);
 
-    // Pequeño delay para mejor UX
-    await new Promise(resolve => setTimeout(resolve, 300));
+    // Pequeño delay para prevenir ataques de fuerza bruta
+    await new Promise(resolve => setTimeout(resolve, 500));
 
-    if (login(username, password)) {
+    const success = await login(username.trim(), password);
+    
+    if (success) {
       router.push('/');
       router.refresh();
     } else {
@@ -104,7 +106,7 @@ export default function LoginPage() {
 
         <div className="mt-6 pt-6 border-t border-gray-200">
           <p className="text-xs text-gray-500 text-center">
-            ⚠️ Autenticación solo para desarrollo. No usar en producción.
+            Acceso restringido para uso autorizado
           </p>
         </div>
       </Card>

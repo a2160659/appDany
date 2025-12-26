@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthGuard } from "@/components/AuthGuard";
+import { SessionRefresh } from "@/components/SessionRefresh";
 
 export const metadata: Metadata = {
   title: "Calculadora RED Veterinaria",
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="antialiased">
-        <AuthGuard>{children}</AuthGuard>
+        <AuthGuard>
+          <SessionRefresh />
+          {children}
+        </AuthGuard>
       </body>
     </html>
   );

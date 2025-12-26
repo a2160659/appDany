@@ -30,6 +30,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cloudflare
+.wrangler
+dist
+.vercel/output
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
@@ -37,3 +42,7 @@ next-env.d.ts
 # vitest
 .vitest
 
+# documentation
+security.md
+DEPLOY.md
+cloudflare-deploy.md

@@ -192,7 +192,6 @@ export default function GatosPage() {
         </div>
       </div>
     </main>
-    </AuthGuard>
   );
 }
 
